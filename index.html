@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#146b60">
+<title>حاسبة ضريبة القيمة المضافة السعودية</title>
+<style>
+:root{color-scheme:light;--ink:#173b37;--muted:#536d68;--accent:#146b60;--border:#d5e2de}*{box-sizing:border-box}body{margin:0;background:#f1f6f3;color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.7}main{max-width:1040px;margin:auto;padding:48px 24px}header{margin-bottom:32px}.badge{display:inline-block;background:#dfede5;color:#245f4e;border-radius:30px;padding:5px 14px;font-size:.85rem}h1{font-size:clamp(1.65rem,4vw,2.6rem);line-height:1.4;margin:16px 0 10px}p{margin:0;color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}.card{background:white;border:1px solid var(--border);border-radius:24px;padding:28px;box-shadow:0 12px 32px #173b3706}h2{font-size:1.15rem;margin:0 0 22px}label,legend{font-weight:bold}input[type=text]{display:block;width:100%;font:inherit;font-size:1.3rem;padding:13px 16px;border:1px solid #9cb6ae;border-radius:12px;margin-top:10px;color:var(--ink);background:#fff;min-width:0}input::placeholder{color:#879992}.hint{font-size:.8rem;margin-top:8px}fieldset{border:0;padding:0;margin:24px 0}legend{margin-bottom:10px}.choice{display:flex;gap:10px;align-items:center;padding:13px;border:1px solid var(--border);border-radius:12px;margin:10px 0;cursor:pointer;font-weight:normal}.choice:has(input:checked){background:#edf6f0;border-color:var(--accent)}input[type=radio]{accent-color:var(--accent);width:20px;height:20px;flex-shrink:0}button{font:inherit;font-weight:bold;cursor:pointer;min-height:48px;border-radius:12px;border:1px solid var(--accent);padding:10px 20px}.buttons{display:flex;gap:12px}.primary{background:var(--accent);color:white;flex:1}.secondary{background:white;color:var(--accent)}button:hover{filter:brightness(.95)}:focus-visible{outline:3px solid #b77923;outline-offset:3px}.error{color:#a12d27;font-size:.9rem;margin:8px 0;min-height:1.6em}.results{background:#fff}dl{margin:0}.row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid var(--border)}dt{color:var(--muted)}dd{margin:0;text-align:left;overflow-wrap:anywhere;font-weight:bold;font-size:1.25rem}.unit{display:block;font-size:.75rem;font-weight:normal;color:var(--muted)}.total{border:0;background:#eaf4ee;border-radius:14px;padding:18px;margin-top:20px}.total dd{color:var(--accent);font-size:1.65rem}.note{font-size:.8rem;margin-top:22px}footer{font-size:.8rem;color:var(--muted);margin-top:28px;text-align:center}@media(max-width:650px){main{padding:28px 16px}.layout{grid-template-columns:1fr;gap:18px}.card{padding:22px}header{margin-bottom:24px}.row{gap:12px}h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<main>
+<header><span class="badge">المساعد المحاسبي · السعودية</span><h1>ضريبتك واضحة، بحسبة بسيطة.</h1><p>احسب ضريبة القيمة المضافة بنسبة ١٥٪، سواء كان المبلغ شاملًا للضريبة أو غير شامل.</p></header>
+<div class="layout">
+<section class="card" aria-labelledby="input-title">
+<h2 id="input-title">تفاصيل الحساب</h2>
+<form id="calculator" novalidate>
+<label for="amount">المبلغ بالريال السعودي</label>
+<input id="amount" name="amount" type="text" inputmode="decimal" dir="ltr" placeholder="مثال: 1,150.00" autocomplete="off" aria-describedby="amount-hint error" required>
+<p class="hint" id="amount-hint">أدخل مبلغًا موجبًا أو صفرًا، حتى منزلتين عشريتين. تُقبل الأرقام العربية والإنجليزية.</p>
+<fieldset><legend>نوع المبلغ</legend>
+<label class="choice"><input type="radio" name="mode" value="inclusive" checked>المبلغ شامل الضريبة</label>
+<label class="choice"><input type="radio" name="mode" value="exclusive">المبلغ غير شامل الضريبة</label>
+</fieldset>
+<p id="error" class="error" role="alert"></p>
+<div class="buttons"><button class="primary" type="submit">احسب الضريبة</button><button class="secondary" type="reset">مسح</button></div>
+</form>
+</section>
+<section class="card results" aria-labelledby="results-title">
+<h2 id="results-title">نتيجة الحساب</h2>
+<div id="results" role="status" aria-live="polite" aria-atomic="true">
+<dl><div class="row"><dt>المبلغ قبل الضريبة</dt><dd><bdi id="net">—</bdi><span class="unit">ريال سعودي</span></dd></div>
+<div class="row"><dt>ضريبة القيمة المضافة (١٥٪)</dt><dd><bdi id="vat">—</bdi><span class="unit">ريال سعودي</span></dd></div>
+<div class="row total"><dt>الإجمالي شامل الضريبة</dt><dd><bdi id="total">—</bdi><span class="unit">ريال سعودي</span></dd></div></dl>
+</div>
+<p class="note">تُقرّب النتائج إلى أقرب هللة، والنصف إلى الأعلى. في الحساب الشامل تُحسب الضريبة بالفرق لضمان تطابق الإجمالي.</p>
+</section>
+</div>
+<footer>حساب فوري داخل جهازك؛ لا تُرسل المبالغ إلى أي خادم.</footer>
+</main>
+<script>
+'use strict';
+const form = document.getElementById('calculator');
+const amountInput = document.getElementById('amount');
+const error = document.getElementById('error');
+const outputs = ['net', 'vat', 'total'].map(id => document.getElementById(id));
+function parseAmount(raw) {
+  const value = raw.trim().replace(/[٠-٩]/g, digit => String(digit.charCodeAt(0) - 1632))
+    .replace(/[۰-۹]/g, digit => String(digit.charCodeAt(0) - 1776))
+    .replace(/٫/g, '.').replace(/٬/g, ',');
+  // Validate grouping before removing separators; never guess decimal separators.
+  if (!/^(?:[0-9]+|[0-9]{1,3}(?:,[0-9]{3})+)(?:\.[0-9]{1,2})?$/.test(value)) {
+    throw new Error('أدخل مبلغًا صحيحًا غير سالب، بمنزلتين عشريتين كحد أقصى. مثال: ١٬١٥٠٫٠٠');
+  }
+  const [whole, fraction = ''] = value.replace(/,/g, '').split('.');
+  if (whole.length > 12) throw new Error('الحد الأقصى للمبلغ هو ٩٩٩٬٩٩٩٬٩٩٩٬٩٩٩٫٩٩ ريال.');
+  return BigInt(whole) * 100n + BigInt(fraction.padEnd(2, '0'));
+}
+// Integer halalas avoid floating-point errors. All operands are non-negative.
+function roundDivide(numerator, denominator) {
+  return (numerator * 2n + denominator) / (denominator * 2n);
+}
+function calculate(totalOrNet, mode) {
+  if (mode === 'inclusive') {
+    const net = roundDivide(totalOrNet * 100n, 115n);
+    return [net, totalOrNet - net, totalOrNet];
+  }
+  const vat = roundDivide(totalOrNet * 15n, 100n);
+  return [totalOrNet, vat, totalOrNet + vat];
+}
+function formatMoney(halalas) {
+  return (halalas / 100n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' +
+    (halalas % 100n).toString().padStart(2, '0');
+}
+function clearResults() { outputs.forEach(output => { output.textContent = '—'; }); }
+function clearError() { error.textContent = ''; amountInput.removeAttribute('aria-invalid'); }
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  clearError();
+  try {
+    const amount = parseAmount(amountInput.value);
+    const values = calculate(amount, form.elements.mode.value);
+    outputs.forEach((output, index) => { output.textContent = formatMoney(values[index]); });
+  } catch (issue) {
+    clearResults();
+    error.textContent = issue.message;
+    amountInput.setAttribute('aria-invalid', 'true');
+    amountInput.focus();
+  }
+});
+form.addEventListener('input', () => { clearError(); clearResults(); });
+form.addEventListener('reset', () => { clearError(); clearResults(); amountInput.focus(); });
+</script>
+</body>
+</html>
